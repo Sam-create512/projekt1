@@ -9,5 +9,7 @@ use App\Repositories\UserRepository;
 $db = new Database();
 
 $pdo = $db->getConnection();
+var_dump($pdo);
+$user = new UserRepository($pdo);
 
 ?>

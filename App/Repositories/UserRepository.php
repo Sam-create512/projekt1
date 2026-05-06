@@ -1,9 +1,5 @@
 <?php
-    namespace App\UserRepository;
+    namespace App\Repositories;
     class UserRepository{
-        private string $name = "Sano";
 
-        public function test(){
-            return $this->name;
-        }
     }
