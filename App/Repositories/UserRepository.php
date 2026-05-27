@@ -38,6 +38,33 @@
  
         }
 
+
+        public function findById(int $id) :?User // navratova hodnota NULL alebo User
+        {
+            try{
+                $user = NULL;
+
+                $sql = "SELECT * FROM users WHERE id = :id LIMIT 1";  
+                $stmt = $this->db->prepare($sql);
+
+                $stmt->execute([":id" => $id]);
+
+                if($row = $stmt->fetch()){
+                    $user = new User($row["username"], $row["password"], $row["role"], true);
+                    $user->setId((int) $row["id"]);
+                    $user->setCreatedAt((string) $row["created_at"]);
+                    return $user;   
+                } 
+                return null;
+            }
+
+            catch(PDOException $e){
+                return null;
+            }
+ 
+        }
+
+
         public function save(User $user) :bool
         {
             try{
@@ -94,5 +121,37 @@
             catch(PDOException $e){
                 return false;
             }
+
+        }
+        public function findAll() :array {
+            try{
+                $uzivatelia = [];
+    
+                $sql = "SELECT * FROM users";
+    
+                $stmt = $this->db->prepare($sql);
+    
+                $result = $stmt->execute();
+                   
+    
+                while ($row = $stmt->fetch()) {
+                    $user = new User(
+                    $row ["username"],
+                    $row ["password"],
+                    $row ["role"],
+                    true);
+                    
+                
+                    $user->setId((int)$row["id"]);
+                    $user->setCreatedAt($row["created_at"]);
+                    $uzivatelia[] = $user;
+                };
+                
+                return $uzivatelia;
+                   
+                }
+                catch(PDOException $e){
+                    return null;
+                }
         }
     }

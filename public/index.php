@@ -13,17 +13,17 @@ $pdo = $db->getConnection();
 
 $userRepo = new UserRepository($pdo);
 
-$user = new User("Majo", "cisco", "admin", false);
+//$user = new User("Majo", "cisco", "admin", false);
 
-var_dump($user);
+//var_dump($user);
 //$userRepo->delete(5);
 
 
-if($user = $userRepo->findByUsername("Majo")){
-    $user->setUsername("Jano");
-    $userRepo->update($user);
+//if($user = $userRepo->findByUsername("Majo")){
+    //$user->setUsername("Jano");
+    //$userRepo->update($user);
 
-}
+//}
 
 //$user = $userRepo->findByUsername("Fero");  
 
@@ -31,5 +31,23 @@ if($user = $userRepo->findByUsername("Majo")){
 
 
 // $userRepo->save
+    $users = $userRepo->findAll();
 
+    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"]) && $_POST["action"] === "delete"){
+
+        $userRepo->delete($_POST["id"]);
+
+        header("Location: index.php");
+        exit();
+    }
+    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["username"]) && isset($_POST["password"])){
+        $user = new User($_POST["username"], $_POST["password"]);
+
+        $userRepo->save($user);
+        
+        header("Location: index.php");
+        exit();
+    }
+
+    include __DIR__."/../view/home.php";
 ?>
