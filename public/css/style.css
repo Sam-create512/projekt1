@@ -1,0 +1,14 @@
+body{
+    display: flex;
+    
+    width: 100vw;
+    justify-content: center;
+}
+
+.container{
+    max-width: 650px;
+    border: 1px solid #bababa;
+    border-radius: 5px;
+    padding: 50px;
+    margin-top: 50px;
+}
